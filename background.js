@@ -1,19 +1,17 @@
 import { isUrl } from "./helpers.js";
 
-chrome.commands.onCommand.addListener(function (command) {
+chrome.commands.onCommand.addListener((command, tab) => {
+  console.log("TAB IS", tab)
   if (command === "search_selection_in_new_tab") {
     openSearchTab_RightClickBehaviour();
   }
 });
 
-function getCurrentTab(callback) {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const tab = tabs[0];
-    console.log("getCurrentTab", "tabs", tabs, "tabId", tab.id);
-    if (callback) {
-      callback(tab);
-    }
-  });
+async function getCurrentTab() {
+  const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  console.log("getCurrentTab", "tabs", tabs);
+
+  return tabs[0];
 }
 
 // TODO: Se way to get selected text from PDF
@@ -99,8 +97,8 @@ function injection() {
   }
 }
 
-function getSelectedText(tabId) {
-  const injectionResults = chrome.scripting.executeScript({
+async function getSelectedText(tabId) {
+  const injectionResults = await chrome.scripting.executeScript({
     target: { tabId, allFrames: false },
     func: injection,
   });
@@ -115,25 +113,25 @@ function getSelectedText(tabId) {
 // - If selected text is an URL(The right click show "Go to <text>" in the options),
 //     it opens the URL in a new tab, just right after the current tab, and not at the end of all tabs.
 // - Else (Search <Google> for <text> in the options), it searches for the text.
-function openSearchTab_RightClickBehaviour() {
-  getCurrentTab((tab) =>
-    getSelectedText(tab.id, (text) => {
-      console.log("opening search tab with right click behaviour", tab);
+async function openSearchTab_RightClickBehaviour() {
+  const tab = await getCurrentTab();
 
-      let url = text;
-      if (!isUrl(text)) {
-        // TODO: Find a way to replace with default search provider
-        url = "https://www.google.com/search?q=" + text;
-      }
+  const text = await getSelectedText(tab.id);
 
-      chrome.tabs.create({
-        url: url,
-        active: true,
-        openerTabId: tab.id,
-        index: tab.index + 1, // This opens the tab just after the current tab
-      });
-    })
-  );
+  console.debug("Opening search tab with right click behaviour", tab);
+
+  let url = text;
+  if (!isUrl(text)) {
+    // TODO: Find a way to replace with default search provider
+    url = "https://www.google.com/search?q=" + text;
+  }
+
+  chrome.tabs.create({
+    url: url,
+    active: true,
+    openerTabId: tab.id,
+    index: tab.index + 1, // This opens the tab just after the current tab
+  });
 
   return true;
 }

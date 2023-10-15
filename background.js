@@ -1,18 +1,14 @@
 import { isUrl } from "./helpers.js";
 
 chrome.commands.onCommand.addListener((command, tab) => {
-  console.log("TAB IS", tab)
+  // console.debug('Tab', tab, chrome.devtools.inspectedWindow.getResources())
+
   if (command === "search_selection_in_new_tab") {
-    openSearchInNewTab();
+    openSearchInNewTab(tab);
+  } else if (command === "new_tab_to_the_right") {
+    newTabToTheRight(tab);
   }
 });
-
-async function getCurrentTab() {
-  const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-  console.log("getCurrentTab", "tabs", tabs);
-
-  return tabs[0];
-}
 
 function injection() {
   //console.log("injection")
@@ -65,7 +61,7 @@ async function getSelectedText(tabId) {
     func: injection,
   });
 
-  console.debug("getSelectedText", "injectionaResults", injectionResults);
+  // console.debug("getSelectedText", "injectionaResults", injectionResults);
   const text = injectionResults[0].result;
 
   return text;
@@ -75,12 +71,8 @@ async function getSelectedText(tabId) {
 // - If selected text is an URL(The right click show "Go to <text>" in the options),
 //     it opens the URL in a new tab, just right after the current tab, and not at the end of all tabs.
 // - Else (Search <Google> for <text> in the options), it searches for the text.
-async function openSearchInNewTab() {
-  const tab = await getCurrentTab();
-
+async function openSearchInNewTab(tab) {
   const text = await getSelectedText(tab.id);
-
-  console.debug("Opening search tab with right click behaviour", tab);
 
   let url = text;
   if (!isUrl(text)) {
@@ -90,6 +82,16 @@ async function openSearchInNewTab() {
 
   chrome.tabs.create({
     url: url,
+    active: true,
+    openerTabId: tab.id,
+    index: tab.index + 1, // This opens the tab just after the current tab
+  });
+}
+
+
+async function newTabToTheRight(tab) {
+  chrome.tabs.create({
+    url: "chrome://newtab",
     active: true,
     openerTabId: tab.id,
     index: tab.index + 1, // This opens the tab just after the current tab

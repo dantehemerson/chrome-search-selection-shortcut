@@ -1,6 +1,6 @@
 {
-   "name": "Shortcut keys for selection search",
-   "description": "Add shortcut keys to open a new google result tab for selected text. Shortcut keys can be set in above left menu in Extensions.",
+  "name": "Shortcut keys for selection search",
+  "description": "Add shortcut keys to open a new google result tab for selected text. Shortcut keys can be set in above left menu in Extensions.",
   "background": {
     "service_worker": "background.js",
     "type": "module"
@@ -9,8 +9,14 @@
     "search_selection_in_new_tab": {
       "description": "Search selection in new tab",
       "suggested_key": {
-         "default": "Ctrl+E"
-       }
+        "default": "Ctrl+E"
+      }
+    },
+    "new_tab_to_the_right": {
+      "description": "Open new tab to the right",
+      "suggested_key": {
+        "default": "Ctrl+T"
+      }
     }
   },
   "icons": {
@@ -19,6 +25,7 @@
   },
   "manifest_version": 3,
   "permissions": ["activeTab", "search", "scripting"],
+  "devtools_page": "devtools.html",
   "update_url": "https://clients2.google.com/service/update2/crx",
   "version": "1.0",
   "web_accessible_resources": [

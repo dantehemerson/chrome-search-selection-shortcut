@@ -1,8 +1,6 @@
 import { isUrl } from "./helpers.js";
 
 chrome.commands.onCommand.addListener((command, tab) => {
-  // console.debug('Tab', tab, chrome.devtools.inspectedWindow.getResources())
-
   if (command === "search_selection_in_new_tab") {
     openSearchInNewTab(tab);
   } else if (command === "new_tab_to_the_right") {

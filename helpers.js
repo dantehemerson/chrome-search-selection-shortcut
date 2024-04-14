@@ -4,12 +4,16 @@ const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/;
 const localhostDomainRE = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/
 const nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/;
 
-export function isUrl(string){
-  if (typeof string !== 'string') {
+export function isUrl(text){
+  if (typeof text !== 'string') {
     return false;
   }
 
-  var match = string.match(protocolAndDomainRE);
+  if (isChromeUrl(text)) {
+    return true;
+  }
+
+  var match = text.match(protocolAndDomainRE);
   if (!match) {
     return false;
   }
@@ -25,4 +29,8 @@ export function isUrl(string){
   }
 
   return false;
+}
+
+function isChromeUrl(url) {
+  return url.startsWith("chrome://");
 }

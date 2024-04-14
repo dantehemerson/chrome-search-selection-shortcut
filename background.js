@@ -75,7 +75,7 @@ async function openSearchInNewTab(tab) {
   let url = text;
   if (!isUrl(text)) {
     // TODO: Find a way to replace with default search provider
-    url = "https://www.google.com/search?q=" + text;
+    url = "https://www.google.com/search?q=" + encodeURIComponent(text);
   }
 
   chrome.tabs.create({

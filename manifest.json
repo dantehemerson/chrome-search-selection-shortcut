@@ -25,7 +25,6 @@
   },
   "manifest_version": 3,
   "permissions": ["activeTab", "search", "scripting"],
-  "devtools_page": "devtools.html",
   "update_url": "https://clients2.google.com/service/update2/crx",
   "version": "1.0",
   "web_accessible_resources": [

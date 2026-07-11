@@ -1,0 +1,21 @@
+🚀 More Shortcuts for Chrome
+
+Add more shortcuts to Chrome to improve your browsing experience.
+
+⌨️ Shortcuts
+════════════
+
+🔎 Search selection in a new tab
+   Shortcut: Ctrl+E
+   Why: Quickly search the selected text without interrupting your workflow.
+
+📑 Open a new tab to the right
+   Shortcut: Ctrl+T
+   Why: Chrome normally opens new tabs at the end of the tab strip, separating related tabs. This shortcut keeps new tabs right next to the current one.
+
+💬 Feedback
+
+I'd love to hear your suggestions or feature requests!
+
+🐦 Twitter/X:
+https://x.com/dantehemerson

@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "More Shortcuts for Chrome",
+  "description": "Add more shortcuts to Chrome to improve your browsing experience.",
+  "version": "0.1.0",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "commands": {
+    "search_selection_in_new_tab": {
+      "description": "Search selection in new tab",
+      "suggested_key": {
+        "default": "Ctrl+E"
+      }
+    },
+    "new_tab_to_the_right": {
+      "description": "Open new tab to the right",
+      "suggested_key": {
+        "default": "Ctrl+T"
+      }
+    }
+  },
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "permissions": ["activeTab", "search", "scripting"]
+}
